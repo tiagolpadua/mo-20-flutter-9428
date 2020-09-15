@@ -13,26 +13,24 @@ class BytebankApp extends StatelessWidget {
   }
 }
 
-class TransfersList extends StatelessWidget {
-
+class TransfersList extends StatefulWidget {
   final List<Transfer> _transfers = List();
 
   @override
+  _TransfersListState createState() => _TransfersListState();
+}
+
+class _TransfersListState extends State<TransfersList> {
+  @override
   Widget build(BuildContext context) {
-
-    _transfers.add(Transfer(100.0, 1000));
-    _transfers.add(Transfer(100.0, 1000));
-    _transfers.add(Transfer(100.0, 1000));
-    _transfers.add(Transfer(100.0, 1000));
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Transferências'),
       ),
       body: ListView.builder(
-        itemCount: _transfers.length,
+        itemCount: widget._transfers.length,
         itemBuilder: (context, index) {
-          final transfer = _transfers[index];
+          final transfer = widget._transfers[index];
           return TransferItem(transfer);
         },
       ),
@@ -51,7 +49,11 @@ class TransfersList extends StatelessWidget {
             (transferReceived) {
               debugPrint('arrived at the then of the future');
               debugPrint('$transferReceived');
-              _transfers.add(transferReceived);
+              if (transferReceived != null) {
+                setState(
+                  () => widget._transfers.add(transferReceived),
+                );
+              }
             },
           );
         },
