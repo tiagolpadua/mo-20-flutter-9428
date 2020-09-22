@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main() => runApp(
-      ChangeNotifierProvider.value(
-        value: AppConfig(),
+      ChangeNotifierProvider(
+        create: (context) => AppConfig(),
         child: BytebankApp(),
       ),
     );
@@ -28,7 +28,7 @@ class AppConfig extends ChangeNotifier {
     return _darkMode;
   }
 
-  void toggle() {
+  void toggleDarkMode() {
     this._darkMode = !this._darkMode;
     print('toggle: ${this._darkMode}');
     notifyListeners();

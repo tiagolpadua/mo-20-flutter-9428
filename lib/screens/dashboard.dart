@@ -10,11 +10,13 @@ class Dashboard extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text('Dashboard'), actions: <Widget>[
         // action button
-        IconButton(
-          icon: Icon(Icons.lightbulb_outline),
-          onPressed: () {
-            Provider.of<AppConfig>(context, listen: false).toggle();
-          },
+        Consumer<AppConfig>(
+          builder: (context, appConfig, child) {
+            return IconButton(
+              icon: Icon(Icons.lightbulb_outline),
+              onPressed: () => appConfig.toggleDarkMode(),
+            );
+          }
         ),
       ]),
       body: Column(
