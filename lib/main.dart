@@ -1,18 +1,37 @@
-import 'package:bytebank/database/app_database.dart';
-import 'package:bytebank/models/contact.dart';
-import 'file:///C:/git/mo-20/bytebank-9428/lib/screens/contact/list.dart';
 import 'package:bytebank/screens/dashboard.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-void main() => runApp(BytebankApp());
+void main() => runApp(
+      ChangeNotifierProvider.value(
+        value: AppConfig(),
+        child: BytebankApp(),
+      ),
+    );
 
 class BytebankApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: bytebankTheme(),
+      theme: Provider.of<AppConfig>(context).darkMode
+          ? ThemeData.dark()
+          : bytebankTheme(),
       home: Dashboard(),
     );
+  }
+}
+
+class AppConfig extends ChangeNotifier {
+  bool _darkMode = false;
+
+  bool get darkMode {
+    return _darkMode;
+  }
+
+  void toggle() {
+    this._darkMode = !this._darkMode;
+    print('toggle: ${this._darkMode}');
+    notifyListeners();
   }
 }
 

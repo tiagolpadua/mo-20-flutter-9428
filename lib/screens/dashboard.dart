@@ -1,15 +1,22 @@
+import 'package:bytebank/main.dart';
 import 'package:bytebank/screens/contact/list.dart';
 import 'package:bytebank/screens/transactions/list.dart';
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 
 class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Dashboard'),
-      ),
+      appBar: AppBar(title: Text('Dashboard'), actions: <Widget>[
+        // action button
+        IconButton(
+          icon: Icon(Icons.lightbulb_outline),
+          onPressed: () {
+            Provider.of<AppConfig>(context, listen: false).toggle();
+          },
+        ),
+      ]),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
