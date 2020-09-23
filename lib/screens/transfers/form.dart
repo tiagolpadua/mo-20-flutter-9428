@@ -1,72 +1,83 @@
-import 'package:bytebank/components/editor.dart';
-import 'package:bytebank/models/transfer.dart';
+import 'package:bytebank/http/webclient.dart';
+import 'package:bytebank/models/contact.dart';
+import 'package:bytebank/models/transaction.dart';
 import 'package:flutter/material.dart';
 
 class TransferForm extends StatefulWidget {
+  final Contact contact;
+
+  TransferForm(this.contact);
+
   @override
   _TransferFormState createState() => _TransferFormState();
 }
 
 class _TransferFormState extends State<TransferForm> {
-  final TextEditingController _accountNumberFieldController =
-  TextEditingController();
-
-  final TextEditingController _valueFieldController = TextEditingController();
+  final TextEditingController _valueController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    const _appBarTitle = 'Creating Transfer';
-
-    const _labelFieldAccount = 'Account number';
-    const _hintFieldAccount = '00000';
-
-    const _labelFieldValue  = 'Value';
-    const _hintFieldValue = '0.00';
-
     return Scaffold(
       appBar: AppBar(
-        title: Text(_appBarTitle),
+        title: Text('New transaction'),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Editor(
-              controller: _accountNumberFieldController,
-              label: _labelFieldAccount,
-              hint: _hintFieldAccount,
-            ),
-            Editor(
-                controller: _valueFieldController,
-                label: _labelFieldValue,
-                hint: _hintFieldValue,
-                icon: Icons.monetization_on),
-            RaisedButton(
-              child: Text('Confirm'),
-              onPressed: () => _createTransfer(context),
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                widget.contact.name,
+                style: TextStyle(
+                  fontSize: 24.0,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 16.0),
+                child: Text(
+                  widget.contact.accountNumber.toString(),
+                  style: TextStyle(
+                    fontSize: 32.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 16.0),
+                child: TextField(
+                  controller: _valueController,
+                  style: TextStyle(fontSize: 24.0),
+                  decoration: InputDecoration(labelText: 'Value'),
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 16.0),
+                child: SizedBox(
+                  width: double.maxFinite,
+                  child: RaisedButton(
+                    child: Text('Transfer'),
+                    onPressed: () {
+                      final double value =
+                      double.tryParse(_valueController.text);
+                      final transactionCreated =
+                      Transaction(value, widget.contact);
+                      save(transactionCreated).then(
+                            (transaction) {
+                          if (transaction != null) {
+                            Navigator.pop(context);
+                          }
+                        },
+                      );
+                    },
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
-  }
-
-  void _createTransfer(BuildContext context) {
-    final int accountNumber = int.tryParse(_accountNumberFieldController.text);
-    final double value = double.tryParse(_valueFieldController.text);
-    if (accountNumber != null && value != null) {
-      final createdTransfer = Transfer(value, accountNumber);
-      debugPrint('$createdTransfer');
-      Navigator.pop(context, createdTransfer);
-    }
-  }
-
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is removed from the
-    // widget tree.
-    debugPrint('TransferForm dispose');
-    _accountNumberFieldController.dispose();
-    _valueFieldController.dispose();
-    super.dispose();
   }
 }

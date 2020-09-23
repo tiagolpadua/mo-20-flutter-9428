@@ -28,16 +28,16 @@ class TransfersListState extends State<TransfersList> {
           return TransferItem(transfer);
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return TransferForm();
-          })).then(
-            (transferReceived) => _updates(transferReceived),
-          );
-        },
-      ),
+//      floatingActionButton: FloatingActionButton(
+//        child: Icon(Icons.add),
+//        onPressed: () {
+//          Navigator.push(context, MaterialPageRoute(builder: (context) {
+//            return TransferForm();
+//          })).then(
+//            (transferReceived) => _updates(transferReceived),
+//          );
+//        },
+//      ),
     );
   }
 
