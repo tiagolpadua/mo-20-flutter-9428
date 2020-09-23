@@ -1,8 +1,6 @@
 import 'package:bytebank/models/transfer.dart';
 import 'package:flutter/material.dart';
 
-import 'form.dart';
-
 class TransfersList extends StatefulWidget {
   final List<Transfer> _transfers = List();
 
@@ -41,13 +39,13 @@ class TransfersListState extends State<TransfersList> {
     );
   }
 
-  void _updates(transferReceived) {
-    setState(() {
-      if (transferReceived != null) {
-        widget._transfers.add(transferReceived);
-      }
-    });
-  }
+//  void _updates(transferReceived) {
+//    setState(() {
+//      if (transferReceived != null) {
+//        widget._transfers.add(transferReceived);
+//      }
+//    });
+//  }
 }
 
 class TransferItem extends StatelessWidget {
