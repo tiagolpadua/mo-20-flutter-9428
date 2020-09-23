@@ -1,7 +1,6 @@
-import 'package:bytebank/screens/contact/list.dart';
 import 'package:bytebank/screens/transactions/list.dart';
 import 'package:flutter/material.dart';
-
+import 'contacts/list.dart';
 
 class Dashboard extends StatelessWidget {
   @override

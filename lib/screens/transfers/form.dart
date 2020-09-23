@@ -2,12 +2,6 @@ import 'package:bytebank/components/editor.dart';
 import 'package:bytebank/models/transfer.dart';
 import 'package:flutter/material.dart';
 
-const _appBarTitle = 'Creating Transfer';
-const _labelFieldAccount = 'Account number';
-const _hintFieldAccount = '00000';
-const _labelFieldValue = 'Value';
-const _hintFieldValue = '0.00';
-
 class TransferForm extends StatefulWidget {
   @override
   _TransferFormState createState() => _TransferFormState();
@@ -15,11 +9,20 @@ class TransferForm extends StatefulWidget {
 
 class _TransferFormState extends State<TransferForm> {
   final TextEditingController _accountNumberFieldController =
-      TextEditingController();
+  TextEditingController();
+
   final TextEditingController _valueFieldController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    const _appBarTitle = 'Creating Transfer';
+
+    const _labelFieldAccount = 'Account number';
+    const _hintFieldAccount = '00000';
+
+    const _labelFieldValue  = 'Value';
+    const _hintFieldValue = '0.00';
+
     return Scaffold(
       appBar: AppBar(
         title: Text(_appBarTitle),
@@ -59,8 +62,8 @@ class _TransferFormState extends State<TransferForm> {
 
   @override
   void dispose() {
-// Clean up the controller when the widget is removed from the
-// widget tree.
+    // Clean up the controller when the widget is removed from the
+    // widget tree.
     debugPrint('TransferForm dispose');
     _accountNumberFieldController.dispose();
     _valueFieldController.dispose();

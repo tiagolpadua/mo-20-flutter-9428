@@ -1,9 +1,7 @@
-import 'dart:async';
 import 'package:bytebank/models/transfer.dart';
-import 'file:///C:/git/mo-20/bytebank-9428/lib/screens/transfer/form.dart';
 import 'package:flutter/material.dart';
 
-const _appBarTitle = 'Transfers';
+import 'form.dart';
 
 class TransfersList extends StatefulWidget {
   final List<Transfer> _transfers = List();
@@ -17,6 +15,8 @@ class TransfersList extends StatefulWidget {
 class TransfersListState extends State<TransfersList> {
   @override
   Widget build(BuildContext context) {
+    const _appBarTitle = 'Transfers';
+
     return Scaffold(
       appBar: AppBar(
         title: Text(_appBarTitle),
@@ -25,18 +25,15 @@ class TransfersListState extends State<TransfersList> {
         itemCount: widget._transfers.length,
         itemBuilder: (context, index) {
           final transfer = widget._transfers[index];
-          return ItemTransfer(transfer);
+          return TransferItem(transfer);
         },
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => TransferForm(),
-            ),
-          ).then(
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return TransferForm();
+          })).then(
             (transferReceived) => _updates(transferReceived),
           );
         },
@@ -44,23 +41,22 @@ class TransfersListState extends State<TransfersList> {
     );
   }
 
-  FutureOr<dynamic> _updates(transferReceived) {
-    if (transferReceived != null) {
-      setState(() {
+  void _updates(transferReceived) {
+    setState(() {
+      if (transferReceived != null) {
         widget._transfers.add(transferReceived);
-      });
-    }
+      }
+    });
   }
 }
 
-class ItemTransfer extends StatelessWidget {
+class TransferItem extends StatelessWidget {
   final Transfer _transfer;
 
-  ItemTransfer(this._transfer);
+  TransferItem(this._transfer);
 
   @override
   Widget build(BuildContext context) {
-// TODO: implement build
     return Card(
       child: ListTile(
         leading: Icon(Icons.monetization_on),
