@@ -1,7 +1,6 @@
 import 'package:bytebank/database/dao/contact_dao.dart';
-import 'package:bytebank/models/contact.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
 Future<Database> getDatabase() async {
   final String path = join(await getDatabasesPath(), 'bytebank.db');
